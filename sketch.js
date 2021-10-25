@@ -15,13 +15,12 @@ function setup() {
   cnv.mouseClicked(handleMouseClicked)
   cnv.parent("canvas")
   capture = createCapture(VIDEO);
-  capture.size(windowWidth, windowHeight);
   capture.hide();
 }
 
 function draw() {
   if(!playing){
-    image(capture, 0, 0, windowWidth, windowHeight);
+    image(capture, 0, 0, capture.width, capture.height);
   }
 }
 
