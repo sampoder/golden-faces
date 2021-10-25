@@ -20,7 +20,7 @@ function setup() {
 
 function draw() {
   if(!playing){
-    image(capture, 0, 0, windowWidth * (windowWidth / capture.width), windowHeight * (windowHeight /capture.height));
+    image(capture, 0, 0, windowWidth * (windowWidth / capture.width), windowHeight);
   }
 }
 
