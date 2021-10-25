@@ -1,5 +1,6 @@
 let capture;
 let stage = 0;
+let cnv
 let playing = false;
 let stages = ["Top", "Bottom", "Left", "Right"]
 let data = {
@@ -10,7 +11,7 @@ let data = {
 }
 
 function setup() {
-  let cnv = createCanvas(windowWidth, windowHeight);
+  cnv = createCanvas(windowWidth, windowHeight);
   cnv.mouseClicked(handleMouseClicked)
   cnv.parent("canvas")
   capture = createCapture(VIDEO);
@@ -30,6 +31,8 @@ function handleMouseClicked(){
     value = stage > 1 ? mouseX : mouseY
     data[stages[stage]] = value
     if(stage == 3){
+      var name = prompt("What is your name?");
+      submitImage((((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01), name)
       alert("Your ratio is " + Math.abs((Math.round((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01))+ ", that is " + (Math.round((Math.abs((1.6 - (((data.Bottom - data.Top) / (data.Right - data.Left)))))* 100))*0.01) + " off the golden ratio.")
       stage = 0
       playing = false
@@ -45,4 +48,24 @@ function handleMouseClicked(){
 function start(){
   playing = true;
   document.getElementById('heading').innerText = "Select the " + stages[stage] + " of Your Face"
+}
+
+const submitImage = async (ratio, name) => {
+  let submission = await fetch(
+    '/api/share',
+    {
+      method: 'POST',
+      body: JSON.stringify({ "Name": name, "Ratio": ratio }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+  if (submission.ok) {
+    submission = await submission.json()
+  } else {
+    submission = await submission.json()
+    alert('Error submitting! Please try again.')
+  }
 }
