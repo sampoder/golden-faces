@@ -31,7 +31,8 @@ function handleMouseClicked(){
     data[stages[stage]] = value
     if(stage == 3){
       var name = prompt("What is your name?");
-      submitImage((((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01), name)
+      var grade = prompt("What is your grade?");
+      submitImage((((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01), name, grade)
       alert("Your ratio is " + Math.abs((Math.round((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01))+ ", that is " + (Math.round((Math.abs((1.6 - (((data.Bottom - data.Top) / (data.Right - data.Left)))))* 100))*0.01) + " off the golden ratio.")
       stage = 0
       playing = false
@@ -49,12 +50,12 @@ function start(){
   document.getElementById('heading').innerText = "Select the " + stages[stage] + " of Your Face"
 }
 
-const submitImage = async (ratio, name) => {
+const submitImage = async (ratio, name, grade) => {
   let submission = await fetch(
     '/api/share',
     {
       method: 'POST',
-      body: JSON.stringify({ "Name": name, "Ratio": ratio }),
+      body: JSON.stringify({ "Name": name, "Ratio": ratio, "Grade": grade }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
