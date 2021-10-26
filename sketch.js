@@ -3,6 +3,7 @@ let stage = 0;
 let cnv
 let playing = false;
 let stages = ["Top", "Bottom", "Left", "Right"]
+let stageLabels = ["Tap on the middle of your hairline.", "Tap the bottom of your chin.", "Tap on your left ear.", 'Tap on your right ear.']
 let data = {
   Top: 0,
   Bottom: 0,
@@ -36,18 +37,18 @@ function handleMouseClicked(){
       alert("Your ratio is " + Math.abs((Math.round((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01))+ ", that is " + (Math.round((Math.abs((1.6 - (((data.Bottom - data.Top) / (data.Right - data.Left)))))* 100))*0.01) + " off the golden ratio.")
       stage = 0
       playing = false
-      document.getElementById('heading').innerText = "Find if you have the Golden Ratio"
+      document.getElementById('heading').innerText = "Tap here to find out how Golden you are."
     }
     else{
       stage += 1
-      document.getElementById('heading').innerText = "Select the " + stages[stage] + " of Your Face"
+      document.getElementById('heading').innerText = stageLabels[stage]
     }
   }
 }
 
 function start(){
   playing = true;
-  document.getElementById('heading').innerText = "Select the " + stages[stage] + " of Your Face"
+  document.getElementById('heading').innerText = stageLabels[stage]
 }
 
 const submitImage = async (ratio, name, grade) => {
