@@ -1,72 +1,121 @@
 let capture;
 let stage = 0;
-let cnv
+let cnv;
 let playing = false;
-let stages = ["Top", "Bottom", "Left", "Right"]
-let stageLabels = ["Tap on the middle of your hairline.", "Tap the bottom of your chin.", "Tap on your left ear.", 'Tap on your right ear.']
+let stages = ["Top", "Bottom", "Left", "Right"];
+let stageLabels = [
+  "Tap on the middle of your hairline.",
+  "Tap the bottom of your chin.",
+  "Tap on your left ear.",
+  "Tap on your right ear.",
+];
 let data = {
-  Top: 0,
-  Bottom: 0,
-  Left: 0,
-  Right: 0
-}
+  "The Top of Your Head": [0, 0],
+  "Your Hairline": [0, 0],
+  "Your Chin": [0, 0],
+  "Your Left Pupil": [0, 0],
+  "The Tip of Your Nose": [0, 0],
+  "The Middle of Your Lips": [0, 0],
+  "Your Left Nostril": [0, 0],
+  "Your Right Nostril": [0, 0],
+  "The Edge of Your Left Eye": [0, 0],
+  "The Edge of Your Right Eye": [0, 0],
+  "Your Left Ear": [0, 0],
+  "Your Right Ear": [0, 0],
+  "The Left Edge of Your Lip": [0, 0],
+  "The Right Edge of Your Lip": [0, 0],
+};
 
 function setup() {
   cnv = createCanvas(windowWidth, windowHeight);
-  cnv.mouseClicked(handleMouseClicked)
-  cnv.parent("canvas")
+  cnv.mouseClicked(handleMouseClicked);
+  cnv.parent("canvas");
   capture = createCapture(VIDEO);
   capture.hide();
 }
 
 function draw() {
-  if(!playing){
-    image(capture, (windowWidth - (windowHeight * (capture.width / capture.height))) / 2, 0, windowHeight * (capture.width / capture.height),  windowHeight);
+  if (!playing) {
+    image(
+      capture,
+      (windowWidth - windowHeight * (capture.width / capture.height)) / 2,
+      0,
+      windowHeight * (capture.width / capture.height),
+      windowHeight
+    );
   }
 }
 
-function handleMouseClicked(){
-  if(playing){
+function handleMouseClicked() {
+  if (playing) {
     circle(mouseX, mouseY, 20);
-    value = stage > 1 ? mouseX : mouseY
-    data[stages[stage]] = value
-    if(stage == 3){
+    data[Object.keys(data)[stage]] = [mouseX, mouseY];
+    stage += 1;
+    if (stage == Object.keys(data).length) {
       var name = prompt("What is your name?");
       var grade = prompt("What is your grade?");
-      submitImage((((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01), name, grade)
-      alert("Your ratio is " + Math.abs((Math.round((((data.Bottom - data.Top) / (data.Right - data.Left))* 100))*0.01))+ ", that is " + (Math.round((Math.abs((1.6 - (((data.Bottom - data.Top) / (data.Right - data.Left)))))* 100))*0.01) + " off the golden ratio.")
-      stage = 0
-      playing = false
-      document.getElementById('heading').innerText = "Tap here to find out how Golden you are."
-    }
-    else{
-      stage += 1
-      document.getElementById('heading').innerText = stageLabels[stage]
+      let ratio = 0;
+      ratio +=
+        Math.abs(data["The Top of Your Head"][1] - data["Your Chin"][1]) /
+        Math.abs(data["Your Right Ear"][0] - data["Your Left Ear"][0]);
+      ratio +=
+        Math.abs(data["The Top of Your Head"][1] - data["Your Left Pupil"][1]) /
+        Math.abs(
+          data["Your Left Pupil"][1] - data["The Middle of Your Lips"][1]
+        );
+      ratio +=
+        Math.abs(data["The Tip of Your Nose"][1] - data["Your Chin"][1]) /
+        Math.abs(data["The Middle of Your Lips"][1] - data["Your Chin"][1]);
+      ratio +=
+        Math.abs(data["The Tip of Your Nose"][1] - data["Your Chin"][1]) /
+        Math.abs(data["Your Left Pupil"][1] - data["The Tip of Your Nose"][1]);
+      ratio +=
+        Math.abs(data["Your Right Nostril"][0] - data["Your Left Nostril"][0]) /
+        Math.abs(
+          data["The Tip of Your Nose"][1] - data["The Middle of Your Lips"][1]
+        );
+      ratio +=
+        Math.abs(
+          data["The Edge of Your Right Eye"][0] -
+            data["The Edge of Your Left Eye"][0]
+        ) / Math.abs(data["Your Hairline"][1] - data["Your Left Pupil"][1]);
+      ratio +=
+        Math.abs(
+          data["The Right Edge of Your Lip"][0] -
+            data["The Left Edge of Your Lip"][0]
+        ) /
+        Math.abs(data["Your Right Nostril"][0] - data["Your Left Nostril"][0]);
+      ratio = Math.abs(ratio / 7)
+      submitImage(ratio, name, grade);
+      alert("Your ratio is " + (Math.round(Math.abs(1.61803398875 - ratio)* 100) / 100) + " off the golden ratio.");
+      stage = 0;
+      playing = false;
+      document.getElementById("heading").innerText =
+        "Tap here to find out how Golden you are.";
+    } else {
+      document.getElementById("heading").innerText = Object.keys(data)[stage];
     }
   }
 }
 
-function start(){
+function start() {
   playing = true;
-  document.getElementById('heading').innerText = stageLabels[stage]
+  document.getElementById("heading").innerText = Object.keys(data)[stage];
 }
 
 const submitImage = async (ratio, name, grade) => {
-  let submission = await fetch(
-    '/api/share',
-    {
-      method: 'POST',
-      body: JSON.stringify({ "Name": name, "Ratio": ratio, "Grade": grade }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }
-  )
+  let submission = await fetch("/api/share", {
+    method: "POST",
+    body: JSON.stringify({ Name: name, Ratio: ratio, Grade: grade }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
   if (submission.ok) {
-    submission = await submission.json()
+    submission = await submission.json();
   } else {
-    submission = await submission.json()
-    alert('Error submitting! Please try again.')
+    submission = await submission.json();
+    alert("Error submitting! Please try again.");
   }
-}
+};
