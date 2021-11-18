@@ -18,8 +18,8 @@ let data = {
   "The Middle of Your Lips": [0, 0],
   "Your Left Nostril": [0, 0],
   "Your Right Nostril": [0, 0],
-  "The Edge of Your Left Eye": [0, 0],
-  "The Edge of Your Right Eye": [0, 0],
+  "The Outer Edge of Your Left Eye": [0, 0],
+  "The Outer Edge of Your Right Eye": [0, 0],
   "Your Left Ear": [0, 0],
   "Your Right Ear": [0, 0],
   "The Left Edge of Your Lip": [0, 0],
@@ -76,8 +76,8 @@ function handleMouseClicked() {
         );
       ratio +=
         Math.abs(
-          data["The Edge of Your Right Eye"][0] -
-            data["The Edge of Your Left Eye"][0]
+          data["The Outer Edge of Your Right Eye"][0] -
+            data["The Outer Edge of Your Left Eye"][0]
         ) / Math.abs(data["Your Hairline"][1] - data["Your Left Pupil"][1]);
       ratio +=
         Math.abs(
