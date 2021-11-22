@@ -48,7 +48,7 @@ function draw() {
 
 function handleMouseClicked() {
   if (playing) {
-    circle(mouseX, mouseY, 20);
+    circle(mouseX, mouseY, 10);
     data[Object.keys(data)[stage]] = [mouseX, mouseY];
     stage += 1;
     if (stage == Object.keys(data).length) {
