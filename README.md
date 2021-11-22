@@ -2,7 +2,7 @@
 
 For this year's Maths Week, I've built a web app that uses a photo to calculate a set of ratios based on measurements of the user's facial features. It then calculates the mean average of those ratios and compares them to the infamous golden ratio: `1.61803398875`.
 
-Many have theorised that having a face that is close to the golden ratio will mean you have "a beautiful face". A fun fact that I learnt this Maths Week was that the Mona Lisa has a face that closely follows the golden ratio! Maybe that's why people line up for hours to view it? But ultimately the definition of "a beautiful face" is subjective, as we learnt in TOK. What isn't subjective is Maths (in most cases) so I'll stick to that for now on.
+Many have theorised that having a face that is close to the golden ratio will mean you have "a beautiful face". A fun fact that I learnt this Maths Week was that the Mona Lisa has a face that closely follows the golden ratio! Maybe that's why people line up for hours to view it? But ultimately the definition of "a beautiful face" is subjective, as we learnt in TOK.
 
 To build the web app I used p5.js, a programming library focused around graphics that builds on top of JavaScript & the HTML Canvas element. The entire codebase has been open sourced at https://github.com/sampoder/golden-faces/ but here is a short snippet of my code that sets up the camera:
 
