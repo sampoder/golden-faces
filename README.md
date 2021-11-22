@@ -1,8 +1,4 @@
-# ⚱️ Golden Ratio
-
-This is a mini website that calculates how close your face is to reaching the golden ratio! Made for Maths Week 2021 @ my school. Uses p5.js.
-
-### Write-up
+# How Gold is Your Face?
 
 For this year's Maths Week, I've built a web app that uses a photo to calculate a set of ratios based on measurements of the user's facial features. It then calculates the mean average of those ratios and compares them to the infamous golden ratio: `1.61803398875`.
 
